@@ -22,21 +22,49 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "play"), for: .normal)
+        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.tintColor = .white
         button.addTarget(self, action: #selector(playPausePlayer), for: .touchUpInside)
         return button
     }()
     
     lazy var playerSlideBar: UISlider = {
         let player = UISlider()
+
+        // Set the minimum and maximum track colors
+        player.minimumTrackTintColor = UIColor.red
+        player.maximumTrackTintColor = UIColor.white.withAlphaComponent(0.5)
+
+        // Set the thumb color
+        player.thumbTintColor = UIColor.red
+        
+        // Customize thumb image
+        let thumbImage = UIImage(systemName: "circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.red)
+        
+        player.setThumbImage(thumbImage, for: .normal)
+        
+        if let normalThumbImage = thumbImage {
+             let highlightedThumbImage = resizeImage(normalThumbImage, targetSize: CGSize(width: normalThumbImage.size.width * 1.35, height: normalThumbImage.size.height * 1.35))
+             player.setThumbImage(highlightedThumbImage, for: .highlighted)
+         }
         player.addTarget(self, action: #selector(sliderChangeProgression), for: .valueChanged)
         player.addTarget(self, action: #selector(sliderStartSliding), for: .touchDown)
+        player.addTarget(self, action: #selector(sliderEndSliding), for: .touchUpInside)
+              player.addTarget(self, action: #selector(sliderEndSliding), for: .touchUpOutside)
         return player
     }()
     
     lazy var cardboardButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(activateCardboardView), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        button.tintColor = .white
         return button
     }()
     
@@ -111,24 +139,31 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
 
         playButton.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(20)
-            make.bottom.equalToSuperview().offset(-50)
+            make.centerY.equalTo(playerSlideBar)
             make.width.height.equalTo(40)
         }
 
         playerSlideBar.snp.makeConstraints { (make) in
-            make.leading.equalTo(playButton.snp.trailing).offset(20)
+            make.leading.equalTo(playButton.snp.trailing).offset(10)
             make.trailing.equalToSuperview().offset(-20)
             make.bottom.equalToSuperview().offset(-50)
         }
 
         cardboardButton.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
-            make.height.equalTo(25)
-            make.width.equalTo(41)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
         }
-
         
+        view.addSubview(backButton)
+        backButton.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+        }
+ 
         leftSceneView.backgroundColor              = UIColor.black
         rightSceneView.backgroundColor             = UIColor.black
         
@@ -234,10 +269,12 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         recognizer!.delegate                        = self
         view.addGestureRecognizer(recognizer!)
         
-        panRecognizer                               = UIPanGestureRecognizer(target: self, action: #selector(PlayerViewController.panGesture(_:)))
-        panRecognizer?.delegate                     = self
-        view.addGestureRecognizer(panRecognizer!)
-        
+        if !cardboardViewOn {
+            panRecognizer                               = UIPanGestureRecognizer(target: self, action: #selector(PlayerViewController.panGesture(_:)))
+            panRecognizer?.delegate                     = self
+            view.addGestureRecognizer(panRecognizer!)
+        }
+       
         //Initialize position variable (for the panGesture)
         currentAngleX                               = 0
         currentAngleY                               = 0
@@ -288,7 +325,8 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
     
 //MARK: Video Player
     func play(){
-        let fileURL: NSURL? = NSURL(string: "https://drive.google.com/file/d/13ZY-OazGu6UqJXrZ6BeN_zbs-2iQFIAU/view?usp=sharing")
+        self.showLoadingViewVideo()
+        let fileURL: NSURL? = NSURL(string: "http://64.23.155.56:8080/file/assets/videos/demo-video.mp4")
 
         if (fileURL != nil){
             
@@ -298,6 +336,7 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
             }
             
             player                                                          = AVPlayer(url: fileURL! as URL)
+            player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.new, context: nil)
             let videoSpriteKitNodeLeft                                      = SKVideoNode(avPlayer: player)
             let videoNodeLeft                                               = SCNNode()
             let spriteKitScene1                                             = SKScene(size: CGSize(width: 1280 * screenScale, height: 1280 * screenScale))
@@ -382,7 +421,7 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
                                                                                     self.updateSliderProgression()
                                                                                 }
                                                                         ) as AnyObject?
-            
+            playingVideo = false
             playPausePlayer()
         }
     }
@@ -392,13 +431,14 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         for videoSpriteKitNode in videosSpriteKitNode {
             if true == playingVideo {
                 videoSpriteKitNode.pause()
+                playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
             } else {
+                playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
                 videoSpriteKitNode.play()
             }
         }
         
         playingVideo = !playingVideo
-        
     }
     
 //MARK: Touch Methods
@@ -409,11 +449,13 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
             playerSlideBar.isHidden                                           = false
             cardboardButton.isHidden                                          = false
             orientationButton.isHidden                                        = false
+            backButton.isHidden = false
         }else {
             playButton.isHidden                                               = true
             playerSlideBar.isHidden                                           = true
             cardboardButton.isHidden                                          = true
             orientationButton.isHidden                                        = true
+            backButton.isHidden = true
         }
         
         hiddenButton                                                        = !hiddenButton
@@ -522,23 +564,50 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         }
         
     }
+
+     @objc func sliderEndSliding() {
+         animateThumbSizeChange()
+         // Provide haptic feedback when the slider ends sliding
+         let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+         impactFeedbackGenerator.prepare()
+         impactFeedbackGenerator.impactOccurred()
+     }
     
     @objc func sliderStartSliding(_ sender: AnyObject) {
+        animateThumbSizeChange()
+        
+        let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+        impactFeedbackGenerator.prepare()
+        impactFeedbackGenerator.impactOccurred()
         
         for videoSpriteKitNode in videosSpriteKitNode {
             videoSpriteKitNode.pause()
         }
-        
         playingVideo = false
-        playButton.setImage(UIImage(named: (true == playingVideo) ? "pause" : "play"), for: UIControl.State())
-        
     }
     
     @objc func activateCardboardView(_ sender: AnyObject) {
-        
-        cardboardViewOn                                         = !cardboardViewOn
+        cardboardViewOn = !cardboardViewOn
         displayIfNeededCardboardView()
-        
+        if cardboardViewOn {
+            view.gestureRecognizers?.removeAll()
+            
+            recognizer                                  = UITapGestureRecognizer(target: self, action:#selector(PlayerViewController.tapTheScreen))
+            recognizer!.delegate                        = self
+            view.addGestureRecognizer(recognizer!)
+        } else {
+            panRecognizer                               = UIPanGestureRecognizer(target: self, action: #selector(PlayerViewController.panGesture(_:)))
+            panRecognizer?.delegate                     = self
+            view.addGestureRecognizer(panRecognizer!)
+            
+            recognizer                                  = UITapGestureRecognizer(target: self, action:#selector(PlayerViewController.tapTheScreen))
+            recognizer!.delegate                        = self
+            view.addGestureRecognizer(recognizer!)
+        }
+    }
+    
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
     
     fileprivate func displayIfNeededCardboardView() {
@@ -591,7 +660,7 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
                 removeNode(node)
             }
         }
-        
+        player.removeObserver(self, forKeyPath: "status")
     }
     
     func removeNode(_ node : SCNNode) {
@@ -613,4 +682,47 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         // Dispose of any resources that can be recreated.
         
     }
+}
+
+func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
+    let size = image.size
+
+    let widthRatio  = targetSize.width  / size.width
+    let heightRatio = targetSize.height / size.height
+
+    let newSize: CGSize
+    if widthRatio > heightRatio {
+        newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+    } else {
+        newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+    }
+
+    let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+
+    UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+    image.draw(in: rect)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+
+    return newImage ?? UIImage()
+}
+
+extension PlayerViewController {
+    func animateThumbSizeChange() {
+        UIView.animate(withDuration: 0.2) {
+            self.playerSlideBar.layoutIfNeeded()
+        }
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+           if keyPath == "status" {
+               if player.status == .readyToPlay {
+                   self.dissmissLoadingViewVideo()
+               }
+               else if player.status == .failed {
+                   // Handle error
+                   print("Error: \(player.error?.localizedDescription ?? "Unknown error")")
+               }
+           }
+       }
 }

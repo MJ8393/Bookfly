@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         if let token = UD.token, token.replacingOccurrences(of: " ", with: "") != "" {
-            let vc = MainTabBarController()
+            let vc = PlayerViewController()
             window?.rootViewController = vc
         } else {
             let vc = StartingViewController()

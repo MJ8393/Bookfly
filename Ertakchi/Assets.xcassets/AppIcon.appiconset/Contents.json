@@ -1,0 +1,14 @@
+{
+  "images" : [
+    {
+      "filename" : "2024-01-14 01.09.01.jpg",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

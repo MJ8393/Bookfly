@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import PDFKit
 
 protocol BookDetailViewControllerDelegate: AnyObject {
     func likeChanged(id: Int64, isLiked: Bool)
@@ -63,6 +64,7 @@ class BookDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = book?.title
         price = book?.price ?? 0.0
         view.backgroundColor = .systemBackground
         initViews()
@@ -71,6 +73,11 @@ class BookDetailViewController: UIViewController {
             isLiked = book.isFavorite ?? false
         }
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -268,7 +275,64 @@ extension BookDetailViewController: DetailTableViewCellDelegate, CommentsTableVi
     }
     
     func playVideoTapped() {
+        let vc = PlayerViewController()
+        if let videoURL = book?.videoLinks {
+            let language = LanguageManager.getAppLang()
+            switch language {
+            case .English:
+                vc.videoXXX = videoURL.en ?? "https://storage.googleapis.com/videosforbookfly/demo-video.mp4"
+            case .Uzbek:
+                vc.videoXXX = videoURL.uz ?? "https://storage.googleapis.com/videosforbookfly/demo-video.mp4"
+            case .lanDesc:
+                vc.videoXXX = videoURL.en ?? "https://storage.googleapis.com/videosforbookfly/demo-video.mp4"
+            }
+        } else {
+            vc.videoXXX = "https://storage.googleapis.com/videosforbookfly/demo-video.mp4"
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
         
+        // For insctuctions
+//        if let ins = UD.instruction {
+//            if ins != "" {
+//                let vc = PlayerViewController()
+//                if let videoURL = book?.videoLink {
+//                    vc.videoXXX = videoURL
+//                } else {
+//                    vc.videoXXX = "https://storage.googleapis.com/videosforbookfly/demo-video.mp4"
+//                }
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            } else {
+//                UD.instruction = "xxx"
+//                let alertController = UIAlertController(title: "Voice Control", message: "We have such voice controls to control the app while wearing VR glasses\n1. BookFly play\n2. BookFly pause\n3. BookFly stop\n4. BookFly VR on/off\n5. BookFly translate", preferredStyle: .alert)
+//                let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
+//                    let vc = PlayerViewController()
+//                    if let videoURL = self.book?.videoLink {
+//                        vc.videoXXX = videoURL
+//                    } else {
+//                        vc.videoXXX = "https://storage.googleapis.com/videosforbookfly/demo-video.mp4"
+//                    }                    
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                }
+//                alertController.addAction(okAction)
+//                present(alertController, animated: true, completion: nil)
+//            }
+//        } else {
+//            UD.instruction = "xxx"
+//            let alertController = UIAlertController(title: "Voice Control", message: "We have such voice controls to control the app while wearing VR glasses\n1. BookFly play\n2. BookFly pause\n3. BookFly stop\n4. BookFly VR on/off\n5. BookFly translate", preferredStyle: .alert)
+//            let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
+//                let vc = PlayerViewController()
+//                if let videoURL = self.book?.videoLink {
+//                    vc.videoXXX = videoURL
+//                } else {
+//                    vc.videoXXX = "https://storage.googleapis.com/videosforbookfly/demo-video.mp4"
+//                }
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
+//            alertController.addAction(okAction)
+//            present(alertController, animated: true, completion: nil)
+//        }
+  
+
     }
     
     func openPDFTapped() {
@@ -284,19 +348,13 @@ extension BookDetailViewController: DetailTableViewCellDelegate, CommentsTableVi
             link = book?.links?.en ?? defaultURL
         }
         
-        let remotePDFDocumentURLPath = link
-        let remotePDFDocumentURL = URL(string: remotePDFDocumentURLPath)!
-        guard var document = PDFDocument(url: remotePDFDocumentURL) else {
-            return
-        }
-        
-        document.delegate = self
-        let readerController = PDFViewController.createNew(with: document, title: book?.title)
-        
-        readerController.hidesBottomBarWhenPushed = true
-        navigationController?.navigationBar.tintColor = .black
-        navigationController?.pushViewController(readerController, animated: true)
+        let vc = PDFViewController()
+        vc.title = book?.title
+        vc.pdfURL = link
+        navigationController?.pushViewController(vc, animated: true)
     }
+    
+    
     
     func editButtonTapped() {
         let vc = AddReviewViewController()

@@ -32,6 +32,7 @@ struct Book: Codable {
     let availableLocation: Bool?
     let availableVideo: Bool?
     let availableEformat: Bool?
+    let videoLinks: VideoLinks?
 }
 
 struct AudioLinks: Codable {
@@ -55,4 +56,9 @@ struct BookLink: Codable {
 struct BookGenre: Codable {
     let title: String?
     let bookNumbers: Int?
+}
+
+struct VideoLinks: Codable {
+    let uz: String?
+    let en: String?
 }

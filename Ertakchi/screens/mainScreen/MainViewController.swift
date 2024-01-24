@@ -52,6 +52,7 @@ class MainViewController: BaseViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         initViews()
+        navigationController?.navigationBar.isTranslucent = false
         self.navigationItem.title = "read_now".translate()
         title = "read_now".translate()
         navigationController?.navigationBar.prefersLargeTitles = false

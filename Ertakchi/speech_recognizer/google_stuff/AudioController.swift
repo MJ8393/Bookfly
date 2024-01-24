@@ -116,9 +116,7 @@ func recordingCallback(
   inBusNumber:UInt32,
   inNumberFrames:UInt32,
   ioData:UnsafeMutablePointer<AudioBufferList>?) -> OSStatus {
-
   var status = noErr
-
   let channelCount : UInt32 = 1
 
   var bufferList = AudioBufferList()
@@ -130,20 +128,30 @@ func recordingCallback(
   buffers[0].mData = nil
 
   // get the recorded samples
-  status = AudioUnitRender(AudioController.sharedInstance.remoteIOUnit!,
-                           ioActionFlags,
-                           inTimeStamp,
-                           inBusNumber,
-                           inNumberFrames,
-                           UnsafeMutablePointer<AudioBufferList>(&bufferList))
+      if let remoteIOUnit = AudioController.sharedInstance.remoteIOUnit {
+          status = AudioUnitRender(remoteIOUnit,
+                                   ioActionFlags,
+                                   inTimeStamp,
+                                   inBusNumber,
+                                   inNumberFrames,
+                                   UnsafeMutablePointer<AudioBufferList>(&bufferList))
+      } else {
+          // Handle the case where remoteIOUnit is nil
+          print("Error: remoteIOUnit is nil")
+      }
+
   if (status != noErr) {
     return status;
   }
 
-  let data = Data(bytes:  buffers[0].mData!, count: Int(buffers[0].mDataByteSize))
-  DispatchQueue.main.async {
-    AudioController.sharedInstance.delegate.processSampleData(data)
-  }
-
+      if let mData = buffers[0].mData {
+          let data = Data(bytes: mData, count: Int(buffers[0].mDataByteSize))
+          DispatchQueue.main.async {
+              AudioController.sharedInstance.delegate.processSampleData(data)
+          }
+          
+      }
+      
+ 
   return noErr
 }

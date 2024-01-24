@@ -101,7 +101,7 @@ extension API {
         let url = API_URL_REGISTER
         
         let parameters: [String: String] = [
-            "fullName": username,
+            "fullName": fullName,
             "username": username,
             "email": email,
             "password": password

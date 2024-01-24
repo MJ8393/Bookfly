@@ -47,6 +47,11 @@ extension UserDefaults {
         set { self.set(newValue, forKey: "token") }
     }
     
+    var instruction: String? {
+        get { return self.string(forKey: "xxxxxxx") }
+        set { self.set(newValue, forKey: "xxxxxxx") }
+    }
+    
     var username: String? {
         get { return self.string(forKey: "username") }
         set { self.set(newValue, forKey: "username") }

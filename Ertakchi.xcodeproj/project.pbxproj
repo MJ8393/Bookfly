@@ -48,6 +48,7 @@
 		1084B9432B50DCF1004AEA5A /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1084B9422B50DCF1004AEA5A /* AudioController.swift */; };
 		1084B9452B50DCFB004AEA5A /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1084B9442B50DCFB004AEA5A /* SpeechRecognitionService.swift */; };
 		1084B9482B50DDF9004AEA5A /* dd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1084B9472B50DDF9004AEA5A /* dd.m */; };
+		10AB50C12B5AB66100B5CAC2 /* API_translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AB50C02B5AB66100B5CAC2 /* API_translator.swift */; };
 		10BB8A092B52BCDF00977E53 /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BB8A082B52BCDF00977E53 /* PersonalInfoViewController.swift */; };
 		10BB8A0C2B52F7A300977E53 /* PersonalInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BB8A0B2B52F7A300977E53 /* PersonalInfoTableViewCell.swift */; };
 		10BB8A0F2B5352D400977E53 /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BB8A0E2B5352D400977E53 /* ResetViewController.swift */; };
@@ -58,6 +59,7 @@
 		10BB8A1C2B539E9C00977E53 /* Animation - 1705207516385.json in Resources */ = {isa = PBXBuildFile; fileRef = 10BB8A1B2B539E9C00977E53 /* Animation - 1705207516385.json */; };
 		10CBA5DC2B54B2250054C547 /* GerneListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CBA5DB2B54B2250054C547 /* GerneListViewController.swift */; };
 		10CBA5DF2B54B2A60054C547 /* GenreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CBA5DE2B54B2A60054C547 /* GenreCollectionViewCell.swift */; };
+		10DD434B2B606C15004EC091 /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DD434A2B606C15004EC091 /* PDFViewController.swift */; };
 		10E19ACA2B48BF0F0097D5F5 /* API_main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19AC92B48BF0F0097D5F5 /* API_main.swift */; };
 		10E19ACC2B48BF700097D5F5 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19ACB2B48BF700097D5F5 /* Book.swift */; };
 		10E19ACE2B48C79E0097D5F5 /* ActivityImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19ACD2B48C79E0097D5F5 /* ActivityImageView.swift */; };
@@ -73,14 +75,6 @@
 		10E19AE72B4A51380097D5F5 /* SeeAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19AE62B4A51380097D5F5 /* SeeAllViewController.swift */; };
 		10E19AE92B4A5B010097D5F5 /* AddReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19AE82B4A5B010097D5F5 /* AddReviewViewController.swift */; };
 		10E19AEB2B4AD8470097D5F5 /* OhMyGodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19AEA2B4AD8470097D5F5 /* OhMyGodTableViewCell.swift */; };
-		10E19AF42B4B0E4F0097D5F5 /* PDFThumbnailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19AED2B4B0E4F0097D5F5 /* PDFThumbnailCollectionViewController.swift */; };
-		10E19AF52B4B0E4F0097D5F5 /* PDFThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19AEE2B4B0E4F0097D5F5 /* PDFThumbnailCell.swift */; };
-		10E19AF82B4B0E4F0097D5F5 /* PDFPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19AF12B4B0E4F0097D5F5 /* PDFPageCollectionViewCell.swift */; };
-		10E19AF92B4B0E4F0097D5F5 /* TiledView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19AF22B4B0E4F0097D5F5 /* TiledView.swift */; };
-		10E19AFC2B4B0F130097D5F5 /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19AFB2B4B0F130097D5F5 /* PDFViewController.swift */; };
-		10E19AFE2B4B0F420097D5F5 /* PDFPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19AFD2B4B0F420097D5F5 /* PDFPageView.swift */; };
-		10E19B002B4B11A60097D5F5 /* PDFReader.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10E19AFF2B4B11A50097D5F5 /* PDFReader.storyboard */; };
-		10E19B022B4B16190097D5F5 /* PDFDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19B012B4B16190097D5F5 /* PDFDocument.swift */; };
 		10E19B052B4CD4710097D5F5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19B042B4CD4710097D5F5 /* ProfileViewController.swift */; };
 		10E19B082B4CDB340097D5F5 /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19B072B4CDB340097D5F5 /* TopView.swift */; };
 		10E19B0A2B4CDC4F0097D5F5 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E19B092B4CDC4F0097D5F5 /* ProfileTableViewCell.swift */; };
@@ -146,6 +140,7 @@
 		1084B9442B50DCFB004AEA5A /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
 		1084B9462B50DDF8004AEA5A /* Ertakchi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ertakchi-Bridging-Header.h"; sourceTree = "<group>"; };
 		1084B9472B50DDF9004AEA5A /* dd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = dd.m; sourceTree = "<group>"; };
+		10AB50C02B5AB66100B5CAC2 /* API_translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API_translator.swift; sourceTree = "<group>"; };
 		10BB8A082B52BCDF00977E53 /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
 		10BB8A0B2B52F7A300977E53 /* PersonalInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoTableViewCell.swift; sourceTree = "<group>"; };
 		10BB8A0E2B5352D400977E53 /* ResetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +151,7 @@
 		10BB8A1B2B539E9C00977E53 /* Animation - 1705207516385.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Animation - 1705207516385.json"; sourceTree = "<group>"; };
 		10CBA5DB2B54B2250054C547 /* GerneListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GerneListViewController.swift; sourceTree = "<group>"; };
 		10CBA5DE2B54B2A60054C547 /* GenreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreCollectionViewCell.swift; sourceTree = "<group>"; };
+		10DD434A2B606C15004EC091 /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		10E19AC92B48BF0F0097D5F5 /* API_main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API_main.swift; sourceTree = "<group>"; };
 		10E19ACB2B48BF700097D5F5 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		10E19ACD2B48C79E0097D5F5 /* ActivityImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityImageView.swift; sourceTree = "<group>"; };
@@ -171,14 +167,6 @@
 		10E19AE62B4A51380097D5F5 /* SeeAllViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllViewController.swift; sourceTree = "<group>"; };
 		10E19AE82B4A5B010097D5F5 /* AddReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewViewController.swift; sourceTree = "<group>"; };
 		10E19AEA2B4AD8470097D5F5 /* OhMyGodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OhMyGodTableViewCell.swift; sourceTree = "<group>"; };
-		10E19AED2B4B0E4F0097D5F5 /* PDFThumbnailCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFThumbnailCollectionViewController.swift; sourceTree = "<group>"; };
-		10E19AEE2B4B0E4F0097D5F5 /* PDFThumbnailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFThumbnailCell.swift; sourceTree = "<group>"; };
-		10E19AF12B4B0E4F0097D5F5 /* PDFPageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFPageCollectionViewCell.swift; sourceTree = "<group>"; };
-		10E19AF22B4B0E4F0097D5F5 /* TiledView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiledView.swift; sourceTree = "<group>"; };
-		10E19AFB2B4B0F130097D5F5 /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
-		10E19AFD2B4B0F420097D5F5 /* PDFPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPageView.swift; sourceTree = "<group>"; };
-		10E19AFF2B4B11A50097D5F5 /* PDFReader.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PDFReader.storyboard; sourceTree = "<group>"; };
-		10E19B012B4B16190097D5F5 /* PDFDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFDocument.swift; sourceTree = "<group>"; };
 		10E19B042B4CD4710097D5F5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		10E19B072B4CDB340097D5F5 /* TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopView.swift; sourceTree = "<group>"; };
 		10E19B092B4CDC4F0097D5F5 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -333,7 +321,6 @@
 				10E19B502B4F1D630097D5F5 /* video_player */,
 				10E19B1C2B4D62260097D5F5 /* language_change */,
 				10E19B132B4CEBF30097D5F5 /* search_screen */,
-				10E19AEC2B4B0E430097D5F5 /* pdf */,
 				103991982B40BC7A00494962 /* Models */,
 				103991942B40BB4C00494962 /* API */,
 				1039919B2B40C07A00494962 /* views */,
@@ -518,6 +505,7 @@
 			children = (
 				10E19AE52B4A51160097D5F5 /* see_all_screen */,
 				10E19AD22B48D1580097D5F5 /* cell */,
+				10DD434A2B606C15004EC091 /* PDFViewController.swift */,
 			);
 			path = detail_screen;
 			sourceTree = "<group>";
@@ -559,21 +547,6 @@
 				10E19AE82B4A5B010097D5F5 /* AddReviewViewController.swift */,
 			);
 			path = see_all_screen;
-			sourceTree = "<group>";
-		};
-		10E19AEC2B4B0E430097D5F5 /* pdf */ = {
-			isa = PBXGroup;
-			children = (
-				10E19AF12B4B0E4F0097D5F5 /* PDFPageCollectionViewCell.swift */,
-				10E19AEE2B4B0E4F0097D5F5 /* PDFThumbnailCell.swift */,
-				10E19AED2B4B0E4F0097D5F5 /* PDFThumbnailCollectionViewController.swift */,
-				10E19AF22B4B0E4F0097D5F5 /* TiledView.swift */,
-				10E19AFB2B4B0F130097D5F5 /* PDFViewController.swift */,
-				10E19AFD2B4B0F420097D5F5 /* PDFPageView.swift */,
-				10E19AFF2B4B11A50097D5F5 /* PDFReader.storyboard */,
-				10E19B012B4B16190097D5F5 /* PDFDocument.swift */,
-			);
-			path = pdf;
 			sourceTree = "<group>";
 		};
 		10E19B032B4CD4610097D5F5 /* profile */ = {
@@ -645,6 +618,7 @@
 			isa = PBXGroup;
 			children = (
 				10E19B512B4F1D7B0097D5F5 /* PlayerViewController.swift */,
+				10AB50C02B5AB66100B5CAC2 /* API_translator.swift */,
 			);
 			path = video_player;
 			sourceTree = "<group>";
@@ -731,7 +705,6 @@
 			files = (
 				10E19B232B4D70DB0097D5F5 /* Localizable.strings in Resources */,
 				1084B9412B50DCB2004AEA5A /* google in Resources */,
-				10E19B002B4B11A60097D5F5 /* PDFReader.storyboard in Resources */,
 				1084B9402B50DCB2004AEA5A /* googleapis.podspec in Resources */,
 				107E44992B3C55E100D562AB /* LaunchScreen.storyboard in Resources */,
 				10E3FFEA2B55BFCA00671E09 /* Animation - 1705347023055.json in Resources */,
@@ -823,6 +796,7 @@
 				10E19ACC2B48BF700097D5F5 /* Book.swift in Sources */,
 				10E19AE02B4A2CC80097D5F5 /* CommentsTableViewCell.swift in Sources */,
 				107E44B32B3C69DE00D562AB /* MainCollectionViewCell.swift in Sources */,
+				10AB50C12B5AB66100B5CAC2 /* API_translator.swift in Sources */,
 				107E44A32B3C579600D562AB /* MainViewController.swift in Sources */,
 				10E19B122B4CE78A0097D5F5 /* LanguageManager.swift in Sources */,
 				10BB8A0F2B5352D400977E53 /* ResetViewController.swift in Sources */,
@@ -837,25 +811,19 @@
 				10E19B0D2B4CE5A80097D5F5 /* ChangeLanguageViewController.swift in Sources */,
 				10E19ADC2B4A063D0097D5F5 /* ReviewTableViewCell.swift in Sources */,
 				10E19AD82B48E2010097D5F5 /* BookDetailCollectionViewCell.swift in Sources */,
-				10E19AF52B4B0E4F0097D5F5 /* PDFThumbnailCell.swift in Sources */,
 				1084B93D2B50D9E1004AEA5A /* SpeechViewController.swift in Sources */,
 				10E19B202B4D6E860097D5F5 /* BaseViewController.swift in Sources */,
-				10E19AF82B4B0E4F0097D5F5 /* PDFPageCollectionViewCell.swift in Sources */,
 				10BB8A122B53595400977E53 /* ForgotPasswordViewController.swift in Sources */,
 				10BB8A0C2B52F7A300977E53 /* PersonalInfoTableViewCell.swift in Sources */,
 				10CBA5DF2B54B2A60054C547 /* GenreCollectionViewCell.swift in Sources */,
 				1036DFCF2B55A81C003DBBCE /* NetworkMonitor.swift in Sources */,
 				10E19B052B4CD4710097D5F5 /* ProfileViewController.swift in Sources */,
-				10E19AF42B4B0E4F0097D5F5 /* PDFThumbnailCollectionViewController.swift in Sources */,
 				10E19B082B4CDB340097D5F5 /* TopView.swift in Sources */,
+				10DD434B2B606C15004EC091 /* PDFViewController.swift in Sources */,
 				10E19B0A2B4CDC4F0097D5F5 /* ProfileTableViewCell.swift in Sources */,
 				10E19AD12B48CCB20097D5F5 /* BookDetailViewController.swift in Sources */,
 				10E19B522B4F1D7B0097D5F5 /* PlayerViewController.swift in Sources */,
 				10E19B2F2B4E1BC20097D5F5 /* AuthersTableViewCell.swift in Sources */,
-				10E19AF92B4B0E4F0097D5F5 /* TiledView.swift in Sources */,
-				10E19AFE2B4B0F420097D5F5 /* PDFPageView.swift in Sources */,
-				10E19B022B4B16190097D5F5 /* PDFDocument.swift in Sources */,
-				10E19AFC2B4B0F130097D5F5 /* PDFViewController.swift in Sources */,
 				101891B02B3E509D006217D8 /* DTSegmentedControl.swift in Sources */,
 				10E19B1E2B4D633F0097D5F5 /* ChangeLangugage.swift in Sources */,
 				1074C0302B4888B500DD2F39 /* HeroHeaderView.swift in Sources */,
@@ -1068,7 +1036,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = mekhriddin.bookFly.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1107,7 +1075,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = mekhriddin.bookFly.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

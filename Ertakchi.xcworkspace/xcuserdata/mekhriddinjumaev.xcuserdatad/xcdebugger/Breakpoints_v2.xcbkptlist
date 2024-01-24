@@ -3,4 +3,54 @@
    uuid = "FF38986A-3AB9-4BF7-B851-9DD84C40783A"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EA4DD0A2-6400-4226-A4FF-D52E7B082C9A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Ertakchi/speech_recognizer/SpeechViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
+            landmarkName = "doAction(command:str:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "EA4DD0A2-6400-4226-A4FF-D52E7B082C9A - e2218bfe4d4776ed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Ertakchi.PlayerViewController.doAction(command: Ertakchi.Command, str: Swift.String) -&gt; ()"
+                  moduleName = "Ertakchi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mekhriddinjumaev/Desktop/Ertakchi-main/Ertakchi/speech_recognizer/SpeechViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "226"
+                  endingLineNumber = "226"
+                  offsetFromSymbolStart = "880">
+               </Location>
+               <Location
+                  uuid = "EA4DD0A2-6400-4226-A4FF-D52E7B082C9A - e2218bfe4d4776ed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Ertakchi.PlayerViewController.doAction(command: Ertakchi.Command, str: Swift.String) -&gt; ()"
+                  moduleName = "Ertakchi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mekhriddinjumaev/Desktop/Ertakchi-main/Ertakchi/speech_recognizer/SpeechViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "226"
+                  endingLineNumber = "226"
+                  offsetFromSymbolStart = "756">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

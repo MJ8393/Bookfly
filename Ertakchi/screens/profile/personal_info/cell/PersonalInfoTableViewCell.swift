@@ -79,6 +79,7 @@ class PersonalInfoTableViewCell: UITableViewCell {
         textField.leftView = leftView
         textField.leftViewMode = .always
         textField.autocorrectionType = .no
+        textField.isUserInteractionEnabled = false
         
         let placeholderText = "username".translate()
         let attributes: [NSAttributedString.Key: Any] = [

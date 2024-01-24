@@ -65,13 +65,15 @@ extension API {
     func updateProfile(fullname: String, username: String, password: String, completion: @escaping (LoginModel?, Error?) -> Void) {
         let url = API_URL_UPDATE_PROFILE
         
+        let token = Token.getToken()
+        
         let parameters: [String: String] = [
             "fullName": fullname,
             "username": username,
             "email": password
         ]
         
-        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: token)
             .validate() // This will validate the status code and Content-Type of the response
             .responseJSON { response in
                 switch response.result {
@@ -90,8 +92,8 @@ extension API {
                         let error = NSError(domain: "", code: response.response?.statusCode ?? -1, userInfo: [NSLocalizedDescriptionKey: "Invalid status code"])
                         completion(nil, error)
                     }
-                    
                 case .failure(let error):
+                    print("xxx", error.localizedDescription)
                     completion(nil, error)
                 }
             }
@@ -100,8 +102,8 @@ extension API {
 }
 
 struct ProfileInfo: Codable {
-    let name: String?
-    let email: String?
-    let username: String?
-    let photoUrl: String?
+    var name: String?
+    var email: String?
+    var username: String?
+    var photoUrl: String?
 }

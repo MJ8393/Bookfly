@@ -17,6 +17,18 @@ import CoreGraphics
 // ViewController
 class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestureRecognizerDelegate {
     
+    // Voice commands
+    
+    var currentState: Command = .none
+    
+    var actions = [String]()
+    
+    var audioData: NSMutableData!
+    
+    var isFinishedPlaying = false
+    
+    let SAMPLE_RATE = 16000
+    
     var leftSceneView = SCNView()
     var rightSceneView = SCNView()
         
@@ -50,8 +62,17 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         player.addTarget(self, action: #selector(sliderChangeProgression), for: .valueChanged)
         player.addTarget(self, action: #selector(sliderStartSliding), for: .touchDown)
         player.addTarget(self, action: #selector(sliderEndSliding), for: .touchUpInside)
-              player.addTarget(self, action: #selector(sliderEndSliding), for: .touchUpOutside)
+//              player.addTarget(self, action: #selector(sliderEndSliding), for: .touchUpOutside)
         return player
+    }()
+    
+    lazy var timeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textAlignment = .right
+        label.text = "0:00 / 0:00"
+        return label
     }()
     
     lazy var cardboardButton: UIButton = {
@@ -77,6 +98,12 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         return button
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+//        checkMicPermission()
+//        startAudio()
+    }
     
     var scenes                                      : [SCNScene]!
     
@@ -115,13 +142,16 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
     
 //MARK: View Did Load
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
+        
+        self.navigationItem.setHidesBackButton(true, animated: true)
+        AudioController.sharedInstance.delegate = self
         // Assuming you have initialized leftSceneView and rightSceneView elsewhere in your code
         view.addSubview(leftSceneView)
         view.addSubview(rightSceneView)
-
+        
         leftSceneView.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalTo(view.snp.centerY)
@@ -147,6 +177,12 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
             make.leading.equalTo(playButton.snp.trailing).offset(10)
             make.trailing.equalToSuperview().offset(-20)
             make.bottom.equalToSuperview().offset(-50)
+        }
+        
+        view.addSubview(timeLabel)
+        timeLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(playerSlideBar.snp.top).offset(0)
+            make.right.equalToSuperview().offset(-20)
         }
 
         cardboardButton.snp.makeConstraints { (make) in
@@ -208,7 +244,7 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
             let cameraRollNodeRight                 = SCNNode()
             let cameraPitchNodeRight                = SCNNode()
             let cameraYawNodeRight                  = SCNNode()
-            
+    
             scenes                                  = [scene1, scene2]
             camerasNode                             = [cameraNodeLeft, cameraNodeRight]
             camerasRollNode                         = [cameraRollNodeLeft, cameraRollNodeRight]
@@ -269,11 +305,11 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         recognizer!.delegate                        = self
         view.addGestureRecognizer(recognizer!)
         
-        if !cardboardViewOn {
-            panRecognizer                               = UIPanGestureRecognizer(target: self, action: #selector(PlayerViewController.panGesture(_:)))
-            panRecognizer?.delegate                     = self
-            view.addGestureRecognizer(panRecognizer!)
-        }
+//        if !cardboardViewOn {
+//            panRecognizer                               = UIPanGestureRecognizer(target: self, action: #selector(PlayerViewController.panGesture(_:)))
+//            panRecognizer?.delegate                     = self
+//            view.addGestureRecognizer(panRecognizer!)
+//        }
        
         //Initialize position variable (for the panGesture)
         currentAngleX                               = 0
@@ -284,7 +320,6 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         
         //Launch the player
         play()
-        
     }
 
 //MARK: Camera Orientation
@@ -321,12 +356,18 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
     @objc func backToCenter(){
         currentAngleX = 0
         currentAngleY = 0
+        
     }
+    
+    var videoXXX = "https://storage.googleapis.com/videosforbookfly/demo-video.mp4"
     
 //MARK: Video Player
     func play(){
         self.showLoadingViewVideo()
-        let fileURL: NSURL? = NSURL(string: "http://64.23.155.56:8080/file/assets/videos/demo-video.mp4")
+        
+        let fileURL: NSURL? = NSURL(string: videoXXX)
+        
+//        let fileURL: URL? = URL(fileURLWithPath: Bundle.main.path(forResource: "demo-video", ofType: "mp4")!)
 
         if (fileURL != nil){
             
@@ -427,18 +468,24 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
     }
     
     @objc func playPausePlayer() {
-        
-        for videoSpriteKitNode in videosSpriteKitNode {
-            if true == playingVideo {
-                videoSpriteKitNode.pause()
-                playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
-            } else {
-                playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
-                videoSpriteKitNode.play()
+        if isFinishedPlaying {
+            playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+            isFinishedPlaying = false
+            replayVideo()
+        } else {
+            for videoSpriteKitNode in videosSpriteKitNode {
+                if true == playingVideo {
+                    videoSpriteKitNode.pause()
+                    playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+                } else {
+                    playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+                    videoSpriteKitNode.play()
+                }
             }
+            
+            playingVideo = !playingVideo
         }
-        
-        playingVideo = !playingVideo
+      
     }
     
 //MARK: Touch Methods
@@ -450,15 +497,21 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
             cardboardButton.isHidden                                          = false
             orientationButton.isHidden                                        = false
             backButton.isHidden = false
+            timeLabel.isHidden = false
         }else {
             playButton.isHidden                                               = true
             playerSlideBar.isHidden                                           = true
             cardboardButton.isHidden                                          = true
             orientationButton.isHidden                                        = true
             backButton.isHidden = true
+            timeLabel.isHidden = true
         }
-        
         hiddenButton                                                        = !hiddenButton
+    }
+    
+    @objc func replayVideo() {
+        player.seek(to: CMTime.zero)
+        player.play()
     }
     
     @objc func panGesture(_ sender: UIPanGestureRecognizer){
@@ -520,9 +573,11 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
     fileprivate func updateSliderProgression() {
         
         let playerDuration = self.playerItemDuration()
+        
+        
         if CMTIME_IS_INVALID(playerDuration) {
             playerSlideBar.minimumValue                                     = 0.0
-            return;
+            return
         }
         
         let duration = Float(CMTimeGetSeconds(playerDuration))
@@ -532,8 +587,22 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
             let time                                                        = Float(CMTimeGetSeconds(player.currentTime()))
             
             playerSlideBar.value                                            = (maxValue - minValue) * time / duration + minValue
+            
+
+            let currentTimeString = formattedTimeString(from: TimeInterval(time))
+            let durationString = formattedTimeString(from: TimeInterval(duration))
+            timeLabel.text = "\(currentTimeString) / \(durationString)"
+            if currentTimeString == durationString {
+                playButton.setImage(UIImage(systemName: "arrow.circlepath"), for: .normal)
+                isFinishedPlaying = true
+            }
         }
-        
+    }
+    
+    func formattedTimeString(from timeInterval: TimeInterval) -> String {
+        let minutes = Int(timeInterval) / 60
+        let seconds = Int(timeInterval) % 60
+        return String(format: "%2d:%02d", minutes, seconds)
     }
     
     fileprivate func playerItemDuration() -> CMTime {
@@ -558,9 +627,7 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         
         let duration = Float(CMTimeGetSeconds(playerDuration))
         if duration.isFinite && (duration > 0) {
-            print(duration,Float64(duration) * Float64(playerSlideBar.value))
             player.seek(to: CMTimeMakeWithSeconds(Float64(duration) * Float64(playerSlideBar.value), preferredTimescale: 60000))
-            playPausePlayer()
         }
         
     }
@@ -571,6 +638,10 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
          let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
          impactFeedbackGenerator.prepare()
          impactFeedbackGenerator.impactOccurred()
+         
+         playingVideo = true
+         playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+         player.play()
      }
     
     @objc func sliderStartSliding(_ sender: AnyObject) {
@@ -583,31 +654,31 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         for videoSpriteKitNode in videosSpriteKitNode {
             videoSpriteKitNode.pause()
         }
-        playingVideo = false
+        playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+//        playingVideo = false
     }
     
-    @objc func activateCardboardView(_ sender: AnyObject) {
+    @objc func activateCardboardView() {
         cardboardViewOn = !cardboardViewOn
         displayIfNeededCardboardView()
         if cardboardViewOn {
-            view.gestureRecognizers?.removeAll()
-            
-            recognizer                                  = UITapGestureRecognizer(target: self, action:#selector(PlayerViewController.tapTheScreen))
-            recognizer!.delegate                        = self
-            view.addGestureRecognizer(recognizer!)
+//            view.gestureRecognizers?.removeAll()
+//            recognizer                                  = UITapGestureRecognizer(target: self, action:#selector(PlayerViewController.tapTheScreen))
+//            recognizer!.delegate                        = self
+//            view.addGestureRecognizer(recognizer!)
         } else {
-            panRecognizer                               = UIPanGestureRecognizer(target: self, action: #selector(PlayerViewController.panGesture(_:)))
-            panRecognizer?.delegate                     = self
-            view.addGestureRecognizer(panRecognizer!)
+//            panRecognizer                               = UIPanGestureRecognizer(target: self, action: #selector(PlayerViewController.panGesture(_:)))
+//            panRecognizer?.delegate                     = self
+//            view.addGestureRecognizer(panRecognizer!)
             
-            recognizer                                  = UITapGestureRecognizer(target: self, action:#selector(PlayerViewController.tapTheScreen))
-            recognizer!.delegate                        = self
-            view.addGestureRecognizer(recognizer!)
+//            recognizer                                  = UITapGestureRecognizer(target: self, action:#selector(PlayerViewController.tapTheScreen))
+//            recognizer!.delegate                        = self
+//            view.addGestureRecognizer(recognizer!)
         }
     }
     
     @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     fileprivate func displayIfNeededCardboardView() {
@@ -627,10 +698,7 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
                 make.top.equalTo(view.snp.centerY).offset(-width / 2.0)
             }
         }
-       
-        
         leftSceneView.isHidden                                    = (false == cardboardViewOn)
-        
         cardboardButton.setImage(UIImage(named: (true == cardboardViewOn) ? "cardboardOn" : "cardboardOff"), for: .normal)
     }
     
@@ -725,4 +793,5 @@ extension PlayerViewController {
                }
            }
        }
+    
 }

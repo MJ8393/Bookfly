@@ -390,7 +390,7 @@ class DetailTableViewCell: UITableViewCell {
             }
         }
         
-        if let available = book.availableVideo {
+        if let available = book.availableLocation {
             if available {
                 subView.addSubview(reviewLabel)
                 reviewLabel.snp.updateConstraints { make in

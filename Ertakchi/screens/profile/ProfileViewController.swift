@@ -139,6 +139,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             if let info = info {
                 let vc = PersonalInfoViewController()
+                vc.delegate = self
                 vc.hidesBottomBarWhenPushed = true
                 vc.info = info
                 navigationController?.pushViewController(vc, animated: true)
@@ -290,4 +291,12 @@ extension ProfileViewController {
             }
         }
     }
+}
+
+extension ProfileViewController: PersonalInfoViewControllerDelegate {
+    func profileUpdated(info: ProfileInfo) {
+        self.info = info
+        tableView.reloadData()
+    }
+    
 }

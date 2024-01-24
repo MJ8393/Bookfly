@@ -8,8 +8,14 @@
 import UIKit
 import Alamofire
 
+protocol PersonalInfoViewControllerDelegate: AnyObject {
+    func profileUpdated(info: ProfileInfo)
+}
+
 
 class PersonalInfoViewController: UIViewController {
+    
+    weak var delegate: PersonalInfoViewControllerDelegate?
     
     var info: ProfileInfo? {
         didSet {
@@ -99,9 +105,12 @@ class PersonalInfoViewController: UIViewController {
 extension PersonalInfoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         topView.delegate = self
+        if let info = info {
+            topView.usernameLabel.text = info.username
+        }
+        
         if let info = info, let url = info.photoUrl {
             topView.setImageWith(url: url)
-            topView.usernameLabel.text = info.username
         }
         return topView
     }
@@ -220,20 +229,32 @@ extension PersonalInfoViewController: PersonalInfoTableViewCellDelegate {
 
 extension PersonalInfoViewController {
     private func updateProfile(fullname: String, username: String, password: String) {
-        showLoadingView()
-        API.shared.updateProfile(fullname: fullname, username: username, password: password) { loginModel, error in
-            self.dissmissLoadingView()
-            if !username.isEmpty, !password.isEmpty {
-                if let model = loginModel {
-                    UD.token = model.token
-                } else if let error = error {
-                    self.showAlert(title: "failure".translate(), message: "error_update_profile".translate())
+        if isValidEmail(password) {
+            showLoadingView()
+            view.endEditing(true)
+            API.shared.updateProfile(fullname: fullname, username: username, password: password) { loginModel, error in
+                self.dissmissLoadingView()
+                if !username.isEmpty, !password.isEmpty {
+                    if let model = loginModel {
+                        UD.token = model.token
+                        self.info?.username = username
+                        self.info?.email = password
+                        self.info?.name = fullname
+                        self.saveButton.isHidden = true
+                        if let info = self.info {
+                            self.delegate?.profileUpdated(info: info)
+                        }
+                    } else if let error = error {
+                        self.showAlert(title: "failure".translate(), message: "error_update_profile".translate())
+                    } else {
+                        self.showAlert(title: "failure".translate(), message: "error_update_profile".translate())
+                    }
                 } else {
                     self.showAlert(title: "failure".translate(), message: "error_update_profile".translate())
                 }
-            } else {
-                self.showAlert(title: "failure".translate(), message: "error_update_profile".translate())
             }
+        } else {
+            self.showAlert(title: "failure".translate(), message: "email_not_valid".translate())
         }
     }
 }
@@ -241,5 +262,12 @@ extension PersonalInfoViewController {
 extension PersonalInfoViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
     }
 }

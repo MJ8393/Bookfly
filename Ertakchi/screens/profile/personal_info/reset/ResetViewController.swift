@@ -89,7 +89,7 @@ class ResetViewController: UIViewController {
         
         let backButton = UIBarButtonItem(title: "back".translate(), style: .done, target: self, action: #selector(backButtonTapped))
         backButton.tintColor = .label
-        navigationItem.leftBarButtonItem = backButton
+        navigationItem.rightBarButtonItem = backButton
         
         title = "reset_password".translate()
         navigationController?.navigationBar.prefersLargeTitles = true

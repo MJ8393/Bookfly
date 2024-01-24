@@ -41,6 +41,14 @@ class GenreCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    lazy var topImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "star")!
+        imageView.contentMode = .right
+        imageView.tintColor = .label
+        return imageView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initViews()
@@ -74,16 +82,26 @@ class GenreCollectionViewCell: UICollectionViewCell {
             make.right.equalToSuperview()
         }
         
+        subView.addSubview(topImageView)
         subView.addSubview(authorLabel)
+
+        
+        topImageView.snp.makeConstraints { make in
+            make.left.equalTo(titleLabel)
+            make.centerY.equalTo(authorLabel)
+            make.height.width.equalTo(8)
+        }
+        
         authorLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.left.right.equalTo(titleLabel)
+            make.right.equalTo(titleLabel)
+            make.left.equalTo(topImageView.snp.right).offset(5)
         }
     }
     
     func setBook(book: BookList) {
         titleLabel.text = book.title
-        authorLabel.text = "$ \(book.price ?? 0)"
+        authorLabel.text = "\(book.overallRanking ?? 0)"
         mainImageView.loadImage(url: book.imageUrl)
     }
 }

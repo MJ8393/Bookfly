@@ -123,3 +123,13 @@
 "free" = "Free";
 "our_lib" = "Our library";
 "our_lib_descrip" = "You can read the book by coming to our university library.";
+
+
+// Commands
+"book_com" = "book";
+"fly_com" = "fly";
+"play_com" = "play";
+"pause_com" = "pause";
+"stop_com" = "stop";
+"translate_com" = "translate";
+

@@ -55,14 +55,14 @@ class SpeechRecognitionService {
             recognitionConfig.languageCode = translatorLang
         } else {
             let language = LanguageManager.getAppLang()
-            var appLanguage = "uz-UZ"
+            var appLanguage = "en-US"
             switch language {
             case .English:
-                appLanguage = "uz-UZ"
+                appLanguage = "en-US"
             case .Uzbek:
-                appLanguage = "uz-UZ"
+                appLanguage = "en-US"
             case .lanDesc:
-                appLanguage = "uz-UZ"
+                appLanguage = "en-US"
             }
             recognitionConfig.languageCode = appLanguage
         }
@@ -71,7 +71,7 @@ class SpeechRecognitionService {
       recognitionConfig.maxAlternatives = 30
       recognitionConfig.enableWordTimeOffsets = true
         
-        let pharasesArray1 = NSMutableArray.init(array: ["book", "fly", "book fly", "go", "back", "go back", "play", "stop", "pause"])
+        let pharasesArray1 = NSMutableArray.init(array: ["book", "fly", "book fly", "go", "back", "go back", "play", "stop", "pause", "VR"])
         let mySpeechContext1 = SpeechContext.init()
         mySpeechContext1.phrasesArray = pharasesArray1
         

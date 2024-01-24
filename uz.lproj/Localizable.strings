@@ -123,3 +123,11 @@
 "free" = "Tekin";
 "our_lib" = "Bizning kutubxonamiz";
 "our_lib_descrip" = "Kitobni universitetimiz kutubxonasiga kelib oʻqishingiz mumkin.";
+
+
+"book_com" = "kitob";
+"fly_com" = "xon";
+"play_com" = "boshla";
+"pause_com" = "shoshma";
+"stop_com" = "to'xtat";
+"translate_com" = "tarjima";

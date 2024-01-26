@@ -161,6 +161,11 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
             make.bottom.leading.trailing.equalToSuperview()
             make.top.equalTo(view.snp.centerY)
         }
+        
+        view.addSubview(VRFrameView)
+        VRFrameView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
 
         // Assuming you have initialized playButton, playerSlideBar, and cardboardButton elsewhere in your code
         view.addSubview(playButton)
@@ -321,6 +326,13 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         //Launch the player
         play()
     }
+    
+    lazy var VRFrameView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Subtractframe")!
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
 
 //MARK: Camera Orientation
     override func willAnimateRotation(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
@@ -688,11 +700,13 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
 //        widthSceneConstraint?.constant                          = (true == cardboardViewOn) ? (width / 2.0) : 1
 //        heightSceneConstraint?.constant                         = (true == cardboardViewOn) ? (width / 2.0) : 1
         if cardboardViewOn {
+            VRFrameView.isHidden = false
             rightSceneView.snp.updateConstraints { (make) in
                 make.bottom.leading.trailing.equalToSuperview()
                 make.top.equalTo(view.snp.centerY)
             }
         } else {
+            VRFrameView.isHidden = true
             rightSceneView.snp.updateConstraints { (make) in
                 make.bottom.leading.trailing.equalToSuperview()
                 make.top.equalTo(view.snp.centerY).offset(-width / 2.0)

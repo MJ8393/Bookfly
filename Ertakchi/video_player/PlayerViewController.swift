@@ -331,6 +331,7 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Subtractframe")!
         imageView.contentMode = .scaleAspectFill
+        imageView.isHidden = true
         return imageView
     }()
 
@@ -700,7 +701,7 @@ class PlayerViewController: UIViewController, SCNSceneRendererDelegate, UIGestur
 //        widthSceneConstraint?.constant                          = (true == cardboardViewOn) ? (width / 2.0) : 1
 //        heightSceneConstraint?.constant                         = (true == cardboardViewOn) ? (width / 2.0) : 1
         if cardboardViewOn {
-            VRFrameView.isHidden = false
+            VRFrameView.isHidden = true
             rightSceneView.snp.updateConstraints { (make) in
                 make.bottom.leading.trailing.equalToSuperview()
                 make.top.equalTo(view.snp.centerY)
